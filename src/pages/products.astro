@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import Papa from "papaparse";
 
+const base = import.meta.env.BASE_URL || '/3dstation_mk/';
 const csvPath = path.resolve("./src/data/products.csv");
 const csv = fs.readFileSync(csvPath, "utf8");
 const { data: products } = Papa.parse(csv, { header: true });
@@ -32,7 +33,7 @@ const { data: products } = Papa.parse(csv, { header: true });
              data-title={product.title} 
              data-price={parseFloat((product.price||'').replace(/[^\d.]/g, '')) || 0}
              data-index={i}>
-          <img src={product.image} alt={product.title} class="w-full h-48 object-cover rounded-xl mb-4 border border-slate-700" loading="lazy" />
+          <img src={`${base}${product.image}`} alt={product.title} class="w-full h-48 object-cover rounded-xl mb-4 border border-slate-700" loading="lazy" />
           <div class="w-full flex flex-col items-start">
             <h2 class="text-xl font-bold text-slate-100 mb-1">{product.title}</h2>
             <p class="text-slate-400 mb-2">{product.subtitle || ""}</p>

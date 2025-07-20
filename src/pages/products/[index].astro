@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import * as fs from "fs";
+import * as path from "path";
+import Papa from "papaparse";
+
+// Export getStaticPaths for all valid product indexes
+export async function getStaticPaths() {
+  const csvPath = path.resolve("./src/data/products.csv");
+  const csv = fs.readFileSync(csvPath, "utf8");
+  const { data: products } = Papa.parse(csv, { header: true });
+  return products
+    .map((product, index) => ({
+      params: { index: String(index) },
+      props: { product }
+    }))
+    .filter(({ product }) => product && product.title && product.image);
+}
+
+// For page rendering
+const { index } = Astro.params;
+const csvPath = path.resolve("./src/data/products.csv");
+const csv = fs.readFileSync(csvPath, "utf8");
+const { data: products } = Papa.parse(csv, { header: true });
+const idx = Number(index);
+---
+
+<BaseLayout>
+  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16">
+    {Astro.props.product && Astro.props.product.title && Astro.props.product.image ? (
+      <div class="w-full max-w-xl bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center">
+        <img src={Astro.props.product.image} alt={Astro.props.product.title} class="w-full h-64 object-cover rounded-xl mb-6 border border-slate-700" loading="lazy" />
+        <h1 class="text-3xl font-extrabold mb-2">{Astro.props.product.title}</h1>
+        <p class="text-lg text-slate-400 mb-4">{Astro.props.product.subtitle}</p>
+        <span class="text-2xl font-semibold text-cyan-400 mb-6">{Astro.props.product.price}</span>
+        <a href="/products" class="mt-4 text-blue-400 hover:underline">&larr; Back to Products</a>
+      </div>
+    ) : (
+      <div class="text-center mt-24">
+        <h1 class="text-3xl font-bold mb-4">Product Not Found</h1>
+        <a href="/products" class="text-blue-400 hover:underline">&larr; Back to Products</a>
+      </div>
+    )}
+  </main>
+</BaseLayout> 

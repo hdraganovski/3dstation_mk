@@ -1,0 +1,46 @@
+---
+const images = [
+  '/src/images/1.jpeg',
+  '/src/images/2.jpeg',
+  '/src/images/3.jpeg',
+  '/src/images/4.jpeg',
+  '/src/images/5.jpeg',
+  '/src/images/6.jpeg',
+];
+---
+<div class="relative w-full">
+  <!-- Carousel Track: Two Rows (static, no animation) -->
+  <div class="overflow-hidden rounded-2xl bg-slate-900/70 backdrop-blur shadow-lg border border-slate-800/60 w-full flex flex-col gap-4">
+    <!-- Row 1 -->
+    <div class="flex w-max whitespace-nowrap">
+      {images.map((src, i) => (
+        <img
+          src={src}
+          alt={`Product Row 1 - ${i + 1}`}
+          class="h-48 w-72 mx-2 inline-block object-cover rounded-xl shadow-md select-none pointer-events-none"
+          draggable="false"
+          loading="eager"
+        />
+      ))}
+    </div>
+    <!-- Row 2 -->
+    <div class="flex w-max whitespace-nowrap">
+      {images.map((src, i) => (
+        <img
+          src={src}
+          alt={`Product Row 2 - ${i + 1}`}
+          class="h-48 w-72 mx-2 inline-block object-cover rounded-xl shadow-md select-none pointer-events-none"
+          draggable="false"
+          loading="eager"
+        />
+      ))}
+    </div>
+  </div>
+  <!-- Centered Button -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <a href="/products" class="pointer-events-auto px-10 py-5 rounded-full bg-slate-900/70 backdrop-blur border border-slate-800/60 text-white font-bold text-2xl shadow-xl transition-colors duration-200" style="box-shadow: 0 4px 24px 0 rgba(30,41,59,0.12);">
+      Our Products
+    </a>
+  </div>
+</div>
+

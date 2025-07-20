@@ -37,7 +37,7 @@ const { data: products } = Papa.parse(csv, { header: true });
             <h2 class="text-xl font-bold text-slate-100 mb-1">{product.title}</h2>
             <p class="text-slate-400 mb-2">{product.subtitle || ""}</p>
             <span class="text-lg font-semibold text-cyan-400">{product.price || ""}</span>
-            <a href={`/products/${i}`} class="mt-4 inline-block px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">View Details</a>
+            <a href={`/3dstation_mk/products/${i}`} class="mt-4 inline-block px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">View Details</a>
           </div>
         </div>
       ))}

@@ -13,42 +13,48 @@ const products = [
     title: "Dual-Port Bit Driver",
     subtitle: "Cobalt blue CNC finish",
     price: "$59",
-    image: `${base}images/1.jpeg`,
+    mainImage: `${base}images/1.jpeg`,
+    images: [`${base}images/1.jpeg`],
   },
   {
     url: "#_",
     title: "Analog Audio Control Hub",
     subtitle: "Soft matte with ring LEDs",
     price: "$79",
-    image: `${base}images/2.jpeg`,
+    mainImage: `${base}images/2.jpeg`,
+    images: [`${base}images/2.jpeg`],
   },
   {
     url: "#_",
     title: "Laser Range Unit",
     subtitle: "Black anodized edge + sensor",
     price: "$110",
-    image: `${base}images/3.jpeg`,
+    mainImage: `${base}images/3.jpeg`,
+    images: [`${base}images/3.jpeg`],
   },
   {
     url: "#_",
     title: "Smart Object Desk Set",
     subtitle: "Minimalist modular kit",
     price: "$129",
-    image: `${base}images/4.jpeg`,
+    mainImage: `${base}images/4.jpeg`,
+    images: [`${base}images/4.jpeg`],
   },
   {
     url: "#_",
     title: "Modular Synth Box",
     subtitle: "Magnetic knobs, dual input",
     price: "$149",
-    image: `${base}images/5.jpeg`,
+    mainImage: `${base}images/5.jpeg`,
+    images: [`${base}images/5.jpeg`],
   },
   {
     url: "#_",
     title: "Compact Action Camera",
     subtitle: "Transparent shell, neon ring",
     price: "$189",
-    image: `${base}images/6.jpeg`,
+    mainImage: `${base}images/6.jpeg`,
+    images: [`${base}images/6.jpeg`],
   },
 ];
 ---
@@ -65,7 +71,7 @@ const products = [
             width="800"
             height="800"
             alt={product.title}
-            src={product.image}
+            src={product.mainImage}
             class="w-full rounded-3xl shadow aspect-12/9 object-cover object-center"
           />
           <div class="mt-2 flex justify-between px-6">

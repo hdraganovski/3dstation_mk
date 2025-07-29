@@ -39,16 +39,16 @@ const { data: products } = Papa.parse(csv, { header: true });
             <p class="text-slate-400 mb-2">{product.subtitle || ""}</p>
             <span class="text-lg font-semibold text-cyan-400">{product.price || ""}</span>
             </div>
-            <div class="flex gap-0 w-full mt-auto">
+            <div class="flex gap-0 w-full mt-auto border-t border-slate-700">
               <a
                 href={`/3dstation_mk/products/${i}`}
-                class="flex-1 px-0 py-2 bg-blue-600 text-white font-semibold rounded-none rounded-bl-xl hover:bg-blue-700 transition text-center border-r border-slate-700"
+                class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-bl-xl transition text-center border-r border-slate-700"
               >
                 View Details
               </a>
               <a
                 href={`mailto:3dstation.mk@gmail.com?subject=Order: ${encodeURIComponent(product.title)}&body=Order: ${encodeURIComponent(product.title)}%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
-                class="flex-1 px-0 py-2 bg-green-600 text-white font-semibold rounded-none rounded-br-xl hover:bg-green-700 transition text-center"
+                class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-br-xl  transition text-center"
                 target="_blank"
                 rel="noopener"
               >

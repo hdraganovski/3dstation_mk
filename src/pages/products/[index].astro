@@ -4,55 +4,194 @@ import * as fs from "fs";
 import * as path from "path";
 import Papa from "papaparse";
 
-// Export getStaticPaths for all valid product indexes
-
-const base = import.meta.env.BASE_URL || '/3dstation_mk/';
+const base = import.meta.env.BASE_URL || "/3dstation_mk/";
 export async function getStaticPaths() {
   const csvPath = path.resolve("./src/data/products.csv");
   const csv = fs.readFileSync(csvPath, "utf8");
   const { data: products } = Papa.parse(csv, { header: true });
   console.log(products);
-  return products
-    .map((product, index) => ({
-      params: { index: String(index) },
-      props: { product }
-    }));
+  return products.map((product, index) => ({
+    params: { index: String(index) },
+    props: { product },
+  }));
 }
 
 const parseImages = (imagesField) => {
+  console.log(imagesField);
   if (Array.isArray(imagesField)) return imagesField;
   try {
     return JSON.parse(imagesField.replace(/'/g, '"'));
-  } catch {
+  } catch (e) {
+    console.log(e);
     return [];
   }
 };
 
+const imagesArr =
+  Astro.props.product && Astro.props.product.images
+    ? parseImages(Astro.props.product.images).map((img) => `${base}${img}`)
+    : [];
 ---
 
 <BaseLayout>
-  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16">
-    {Astro.props.product && Astro.props.product.title && Astro.props.product.mainImage ? (
-      <div class="w-full max-w-xl bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center">
-        <img src={`${base}${Astro.props.product.mainImage}`} alt={Astro.props.product.title} class="w-full h-64 object-cover rounded-xl mb-6 border border-slate-700" loading="lazy" />
-        <h1 class="text-3xl font-extrabold mb-2">{Astro.props.product.title}</h1>
-        <p class="text-lg text-slate-400 mb-4">{Astro.props.product.subtitle}</p>
-        <span class="text-2xl font-semibold text-cyan-400 mb-6">{Astro.props.product.price}</span>
-        {/* Show additional images if present */}
-        {Astro.props.product.images && parseImages(Astro.props.product.images).length > 1 && (
-          <div class="flex gap-2 mt-4">
-            {parseImages(Astro.props.product.images).slice(1).map((img, idx) => (
-              <img src={`${base}${img}`} alt={`Additional image ${idx+1}`} class="w-20 h-20 object-cover rounded border border-slate-700" loading="lazy" />
-            ))}
+  <main
+    class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16"
+  >
+    {
+      Astro.props.product &&
+      Astro.props.product.title ? (
+        <div class="w-full max-w-7xl bg-slate-800 rounded-2xl shadow-lg flex flex-col md:flex-row">
+          <div class="md:w-1/2 w-full flex items-center justify-center min-h-[400px] relative">
+            <button
+              type="button"
+              class="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-900/70 hover:bg-slate-800 text-white rounded-full p-2 shadow-lg z-10"
+              id="carousel-prev"
+              aria-label="Previous image"
+              style="display: none;"
+            >
+              &#8592;
+            </button>
+            <div class="relative w-full flex max-h-[800px] items-center justify-center overflow-hidden">
+              {imagesArr.map((img, idx) => (
+                <img
+                  src={img}
+                  alt={Astro.props.product.title}
+                  class="w-full object-cover max-h-[800px] rounded-xl border border-slate-700"
+                  data-carousel-img={idx}
+                  style={idx === 0 ? "display: block;" : "display: none;"}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              class="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-900/70 hover:bg-slate-800 text-white rounded-full p-2 shadow-lg z-10"
+              id="carousel-next"
+              aria-label="Next image"
+              style="display: none;"
+            >
+              &#8594;
+            </button>
           </div>
-        )}
-        <a href="/3dstation_mk/products" class="mt-4 text-blue-400 hover:underline">&larr; Back to Products</a>
-      </div>
-    ) : (
-      <div class="text-center mt-24">
-        <h1 class="text-3xl font-bold mb-4">Product Not Found</h1>
-        <a href="/3dstation_mk/products" class="text-blue-400 hover:underline">&larr; Back to Products</a>
-      </div>
-    )}
+          <div class="md:w-1/2 w-full flex flex-col justify-between">
+            <div class="p-4">
+              <h1 class="text-xl font-bold text-slate-100 mb-1">
+                {Astro.props.product.title}
+              </h1>
+              <p class="text-slate-400 mb-2">{Astro.props.product.subtitle}</p>
+              <span class="text-lg font-semibold text-cyan-400 mb-4">
+                {Astro.props.product.price}
+              </span>
+              {Astro.props.product.description && (
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                  {Astro.props.product.description}
+                </p>
+              )}
+            </div>
+            <div class="flex gap-0 w-full border-t border-slate-700">
+              <div class="flex-1 flex items-center justify-center border-r border-slate-700">
+                <label for="quantity-select" class="text-white font-semibold mr-2">Qty:</label>
+                <select id="quantity-select" class="bg-slate-800 text-white px-3 py-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400">
+                  {Array.from({length: 20}, (_, i) => i + 1).map(num => (
+                    <option value={num}>{num}</option>
+                  ))}
+                </select>
+              </div>
+              <a
+                href={`mailto:3dstation.mk@gmail.com?subject=Order: ${encodeURIComponent(Astro.props.product.title)}&body=Order: ${encodeURIComponent(Astro.props.product.title)}%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
+                class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-br-xl transition text-center"
+                target="_blank"
+                rel="noopener"
+                id="order-link"
+              >
+                Order
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div class="text-center mt-24">
+          <h1 class="text-3xl font-bold mb-4">Product Not Found</h1>
+          <a
+            href="/3dstation_mk/products"
+            class="text-blue-400 hover:underline"
+          >
+            &larr; Back to Products
+          </a>
+        </div>
+      )
+    }
+    <script>
+      let currentImage = 0;
+      const imgEls = Array.from(
+        document.querySelectorAll("[data-carousel-img]"),
+      ) as HTMLImageElement[];
+      const prevBtn = document.getElementById(
+        "carousel-prev",
+      ) as HTMLButtonElement;
+      const nextBtn = document.getElementById(
+        "carousel-next",
+      ) as HTMLButtonElement;
+
+      if (imgEls.length > 1) {
+        prevBtn.style.display = "block";
+        nextBtn.style.display = "block";
+      }
+
+      function updateCarousel(newIdx: number) {
+        imgEls.forEach((img, idx) => {
+          img.style.display = idx === newIdx ? "block" : "none";
+        });
+      }
+
+      prevBtn?.addEventListener("click", () => {
+        currentImage = (currentImage - 1 + imgEls.length) % imgEls.length;
+        updateCarousel(currentImage);
+      });
+
+      nextBtn?.addEventListener("click", () => {
+        currentImage = (currentImage + 1) % imgEls.length;
+        updateCarousel(currentImage);
+      });
+
+      // Swipe support
+      let startX: number | null = null;
+      const container = imgEls[0]?.parentElement;
+      if (container) {
+        container.addEventListener("touchstart", (e) => {
+          startX = e.touches[0].clientX;
+        });
+        container.addEventListener("touchend", (e) => {
+          if (startX === null) return;
+          const endX = e.changedTouches[0].clientX;
+          if (endX - startX > 40) {
+            // swipe right
+            currentImage = (currentImage - 1 + imgEls.length) % imgEls.length;
+            updateCarousel(currentImage);
+          } else if (startX - endX > 40) {
+            // swipe left
+            currentImage = (currentImage + 1) % imgEls.length;
+            updateCarousel(currentImage);
+          }
+          startX = null;
+        });
+      }
+
+      // Initial state
+      updateCarousel(currentImage);
+      
+      // Quantity selector functionality
+      const quantitySelect = document.getElementById('quantity-select') as HTMLSelectElement;
+      const orderLink = document.getElementById('order-link') as HTMLAnchorElement;
+      
+      function updateOrderLink() {
+        const quantity = quantitySelect.value;
+        const productTitle = encodeURIComponent('{Astro.props.product.title}');
+        const mailtoLink = `mailto:3dstation.mk@gmail.com?subject=Order: ${productTitle}&body=Order: ${productTitle}%0AQuantity: ${quantity}%0AName: [blank]%0AAddress: [blank]`;
+        orderLink.href = mailtoLink;
+      }
+      
+      quantitySelect.addEventListener('change', updateOrderLink);
+    </script>
   </main>
-</BaseLayout> 
+</BaseLayout>

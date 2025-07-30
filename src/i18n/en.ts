@@ -31,6 +31,7 @@ const en = {
     mailBody: "Order",
     notFoundTitle: "Product Not Found",
     backToProducts: "Back to Products",
+    quantity: "Qty.",
   },
   contact: {
     title: "Contact",
@@ -43,6 +44,9 @@ const en = {
   },
   footer: {
     allRightsReserved: "© 2025 3D Station. All rights reserved.",
-  }
+  },
+  carousel: {
+    viewProducts: "View Our Products",
+  },
 };
 export default en; 

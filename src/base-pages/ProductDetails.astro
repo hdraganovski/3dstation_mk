@@ -71,7 +71,7 @@ const imagesArr =
             </div>
             <div class="flex gap-0 w-full border-t border-slate-700">
               <div class="flex-1 flex items-center justify-center border-r border-slate-700">
-                <label for="quantity-select" class="text-white font-semibold mr-2">Qty:</label>
+                <label for="quantity-select" class="text-white font-semibold mr-2">{t.products.quantity}</label>
                 <select id="quantity-select" class="bg-slate-800 text-white px-3 py-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400">
                   {Array.from({length: 20}, (_, i) => i + 1).map(num => (
                     <option value={num}>{num}</option>

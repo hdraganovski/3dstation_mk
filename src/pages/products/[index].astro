@@ -6,7 +6,7 @@ import ProductDetails from "../../base-pages/ProductDetails.astro";
 import t from "../../i18n/mk";
 
 export async function getStaticPaths() {
-  const csvPath = path.resolve("./src/data/products.csv");
+  const csvPath = path.resolve("./src/data/products_mk.csv");
   const csv = fs.readFileSync(csvPath, "utf8");
   const { data: products } = Papa.parse(csv, { header: true });
   return products.map((product, index) => ({

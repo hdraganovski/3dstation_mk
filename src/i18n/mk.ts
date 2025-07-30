@@ -31,6 +31,7 @@ const mk = {
     mailBody: "Нарачка",
     notFoundTitle: "Производот не е пронајден",
     backToProducts: "Назад до производи",
+    quantity: "Кол.",
   },
   contact: {
     title: "Контакт",
@@ -43,6 +44,9 @@ const mk = {
   },
   footer: {
     allRightsReserved: "© 2025 3D Station. Сите права се задржани.",
-  }
+  },
+  carousel: {
+    viewProducts: "Погледни ги нашите производи",
+  },
 };
 export default mk; 

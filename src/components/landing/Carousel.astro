@@ -8,6 +8,7 @@ const images = [
   `${base}/images/5.jpeg`,
   `${base}/images/6.jpeg`,
 ];
+const { t } = Astro.props;
 ---
 <div class="relative w-full">
   <!-- Carousel Track: Two Rows (static, no animation) -->
@@ -39,8 +40,8 @@ const images = [
   </div>
   <!-- Centered Button -->
   <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-    <a href={`${import.meta.env.BASE_URL}products`} class="pointer-events-auto px-10 py-5 rounded-full bg-slate-900/70 backdrop-blur border border-slate-800/60 text-white font-bold text-2xl shadow-xl transition-colors duration-200" style="box-shadow: 0 4px 24px 0 rgba(30,41,59,0.12);">
-      Our Products
+    <a href={`${import.meta.env.BASE_URL}/${t.langPrefix}products`} class="pointer-events-auto px-10 py-5 rounded-full bg-slate-900/70 backdrop-blur border border-slate-800/60 text-white font-bold text-2xl shadow-xl transition-colors duration-200" style="box-shadow: 0 4px 24px 0 rgba(30,41,59,0.12);">
+      {t.carousel.viewProducts}
     </a>
   </div>
 </div>

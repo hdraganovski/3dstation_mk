@@ -2,16 +2,17 @@
 import BaseHead from "@/components/BaseHead.astro";
 import Footer from "@/components/global/Footer.astro";
 import Navbar from "@/components/global/Navbar.astro";
+const { t } = Astro.props;
 ---
 
-<html lang="en">
+<html lang={t.lang} style="scroll-behavior: smooth;">
   <head>
     <BaseHead />
   </head>
   <!--  max-w-6xl -->
   <body class="bg-white mx-auto px-8 lg:px-12 flex flex-col">
-    <Navbar />
+    <Navbar t={t} />
     <main class="grow"><slot /></main>
-    <Footer />
+    <Footer t={t} />
   </body>
 </html>

@@ -2,8 +2,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import Papa from "papaparse";
-import ProductDetails from "../../base-pages/ProductDetails.astro";
-import t from "../../i18n/mk";
+import ProductDetails from "../../../base-pages/ProductDetails.astro";
+import t from "../../../i18n/en";
 
 export async function getStaticPaths() {
   const csvPath = path.resolve("./src/data/products.csv");

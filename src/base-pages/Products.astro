@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import * as fs from "fs";
+import * as path from "path";
+import Papa from "papaparse";
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const csvPath = path.resolve("./src/data/products.csv");
+const csv = fs.readFileSync(csvPath, "utf8");
+const { data: products } = Papa.parse(csv, { header: true });
+const productsLinkPrefix = `${base}${t.langPrefix}products`;
+---
+
+<BaseLayout t={t}>
+  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16">
+    <h1 class="text-4xl font-extrabold mb-8">{t.products.title}</h1>
+    <div class="w-full max-w-6xl mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
+      <div class="flex gap-2 w-full sm:w-auto">
+        <input id="filter-input" type="text" placeholder={t.products.filterPlaceholder} class="px-4 py-2 rounded bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64" />
+      </div>
+      <div class="flex gap-2 w-full sm:w-auto">
+        <label for="sort-select" class="sr-only">Sort by</label>
+        <select id="sort-select" class="px-4 py-2 rounded bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="name-asc">{t.products.sortNameAsc}</option>
+          <option value="name-desc">{t.products.sortNameDesc}</option>
+          <option value="price-asc">{t.products.sortPriceAsc}</option>
+          <option value="price-desc">{t.products.sortPriceDesc}</option>
+        </select>
+      </div>
+    </div>
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+      {products.filter(p => p.title && p.mainImage).map((product, i) => (
+        <div class="bg-slate-800 rounded-2xl shadow-lg flex flex-col items-center product-card" 
+             data-title={product.title} 
+             data-price={parseFloat((product.price||'').replace(/[^\d.]/g, '')) || 0}
+             data-index={i}>
+          <img src={`${base}${product.mainImage}`} alt={product.title} class="w-full h-64 object-cover rounded-xl border border-slate-700" loading="lazy" />
+          <div class="w-full flex flex-col items-start p-4">
+            <h2 class="text-xl font-bold text-slate-100 mb-1">{product.title}</h2>
+            <p class="text-slate-400 mb-2">{product.subtitle || ""}</p>
+            <span class="text-lg font-semibold text-cyan-400">{product.price || ""}</span>
+            </div>
+            <div class="flex gap-0 w-full mt-auto border-t border-slate-700">
+              <a
+                href={`${productsLinkPrefix}/${i}`}
+                class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-bl-xl transition text-center border-r border-slate-700"
+              >
+                {t.products.viewDetails}
+              </a>
+              <a
+                href={`mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${encodeURIComponent(product.title)}&body=${t.products.mailBody}: ${encodeURIComponent(product.title)}%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
+                class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-br-xl  transition text-center"
+                target="_blank"
+                rel="noopener"
+              >
+                {t.products.orderText}
+              </a>
+            </div>
+        </div>
+      ))}
+    </div>
+    <script>
+      const filterInput = document.getElementById('filter-input');
+      const sortSelect = document.getElementById('sort-select');
+      const grid = document.getElementById('products-grid');
+      let cards = Array.from(grid.children);
+
+      function renderCards(newOrder) {
+        grid.innerHTML = '';
+        newOrder.forEach(card => grid.appendChild(card));
+      }
+
+      function filterAndSort() {
+        let filtered = cards;
+        const filter = filterInput.value.trim().toLowerCase();
+        if (filter) {
+          filtered = filtered.filter(card => card.dataset.title.toLowerCase().includes(filter));
+        }
+        const sort = sortSelect.value;
+        if (sort === 'name-asc') {
+          filtered.sort((a, b) => a.dataset.title.localeCompare(b.dataset.title));
+        } else if (sort === 'name-desc') {
+          filtered.sort((a, b) => b.dataset.title.localeCompare(a.dataset.title));
+        } else if (sort === 'price-asc') {
+          filtered.sort((a, b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+        } else if (sort === 'price-desc') {
+          filtered.sort((a, b) => parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+        }
+        renderCards(filtered);
+      }
+
+      filterInput.addEventListener('input', filterAndSort);
+      sortSelect.addEventListener('change', filterAndSort);
+      // Initial sort
+      filterAndSort();
+    </script>
+  </main>
+</BaseLayout> 

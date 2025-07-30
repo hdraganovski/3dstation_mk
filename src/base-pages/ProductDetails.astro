@@ -12,7 +12,7 @@ const parseImages = (imagesField) => {
 };
 const imagesArr =
   product && product.images
-    ? parseImages(product.images).map((img) => `${base}${img}`)
+    ? parseImages(product.images).map((img) => `${base}/${img}`)
     : [];
 ---
 

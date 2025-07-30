@@ -8,6 +8,6 @@ export default defineConfig({
   },
   // Add your domain here
    site: 'https://hdraganovski.github.io/',
-  base: '/3dstation_mk/',
+  base: '/3dstation_mk',
   integrations: [ sitemap()]
 });

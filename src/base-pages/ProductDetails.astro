@@ -17,7 +17,7 @@ const imagesArr =
 ---
 
 <BaseLayout t={t}>
-  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16">
+  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-10">
     {
       Astro.props.product &&
       Astro.props.product.title ? (
@@ -79,11 +79,13 @@ const imagesArr =
                 </select>
               </div>
               <a
-                href={`mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${encodeURIComponent(Astro.props.product.title)}&body=${t.products.mailBody}: ${encodeURIComponent(Astro.props.product.title)}%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
+                href={`mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${encodeURIComponent(Astro.props.product.title)} [${Astro.props.product.code}]&body=${t.products.mailBody}: ${encodeURIComponent(Astro.props.product.title)} [${Astro.props.product.code}]%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
                 class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-br-xl transition text-center"
                 target="_blank"
                 rel="noopener"
                 id="order-link"
+                data-mail-subject={t.products.mailSubject}
+                data-mail-body={t.products.mailBody}
               >
                 {t.products.orderText}
               </a>
@@ -160,10 +162,13 @@ const imagesArr =
       const quantitySelect = document.getElementById('quantity-select');
       const orderLink = document.getElementById('order-link');
       function updateOrderLink() {
-        const quantity = quantitySelect.value;
+        const quantity = (quantitySelect as HTMLSelectElement).value;
         const productTitle = encodeURIComponent(Astro.props.product.title);
-        const mailtoLink = `mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${productTitle}&body=${t.products.mailBody}: ${productTitle}%0AQuantity: ${quantity}%0AName: [blank]%0AAddress: [blank]`;
-        orderLink.href = mailtoLink;
+        const productCode = Astro.props.product.code;
+        const mailSubject = orderLink.getAttribute('data-mail-subject') || 'Order';
+        const mailBody = orderLink.getAttribute('data-mail-body') || 'Order';
+        const mailtoLink = `mailto:3dstation.mk@gmail.com?subject=${mailSubject}: ${productTitle} [${productCode}]&body=${mailBody}: ${productTitle} [${productCode}]%0AQuantity: ${quantity}%0AName: [blank]%0AAddress: [blank]`;
+        (orderLink as HTMLAnchorElement).href = mailtoLink;
       }
       quantitySelect.addEventListener('change', updateOrderLink);
     </script>

@@ -11,7 +11,7 @@ const productsLinkPrefix = `${base}/${t.langPrefix}products`;
 ---
 
 <BaseLayout t={t}>
-  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-16">
+  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-12">
     <h1 class="text-4xl font-extrabold mb-8">{t.products.title}</h1>
     <div class="w-full max-w-6xl mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
       <div class="flex gap-2 w-full sm:w-auto">
@@ -28,11 +28,11 @@ const productsLinkPrefix = `${base}/${t.langPrefix}products`;
       </div>
     </div>
     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
-      {products.filter(p => p.title && p.mainImage).map((product, i) => (
+      {products.filter(p => p.title && p.mainImage && p.code).map((product) => (
         <div class="bg-slate-800 rounded-2xl shadow-lg flex flex-col items-center product-card" 
              data-title={product.title} 
              data-price={parseFloat((product.price||'').replace(/[^\d.]/g, '')) || 0}
-             data-index={i}>
+             data-index={product.code}>
           <img src={`${base}/${product.mainImage}`} alt={product.title} class="w-full h-64 object-cover rounded-xl border border-slate-700" loading="lazy" />
           <div class="w-full flex flex-col items-start p-4">
             <h2 class="text-xl font-bold text-slate-100 mb-1">{product.title}</h2>
@@ -41,13 +41,13 @@ const productsLinkPrefix = `${base}/${t.langPrefix}products`;
             </div>
             <div class="flex gap-0 w-full mt-auto border-t border-slate-700">
               <a
-                href={`${productsLinkPrefix}/${i}`}
+                href={`${productsLinkPrefix}/${product.code}`}
                 class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-bl-xl transition text-center border-r border-slate-700"
               >
                 {t.products.viewDetails}
               </a>
               <a
-                href={`mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${encodeURIComponent(product.title)}&body=${t.products.mailBody}: ${encodeURIComponent(product.title)}%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
+                href={`mailto:3dstation.mk@gmail.com?subject=${t.products.mailSubject}: ${encodeURIComponent(product.title)} [${product.code}]&body=${t.products.mailBody}: ${encodeURIComponent(product.title)} [${product.code}]%0AQuantity: 1%0AName: [blank]%0AAddress: [blank]`}
                 class="flex-1 px-0 py-2 text-white font-semibold rounded-none rounded-br-xl  transition text-center"
                 target="_blank"
                 rel="noopener"

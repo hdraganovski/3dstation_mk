@@ -46,7 +46,7 @@ const mk = {
     allRightsReserved: "© 2025 3D Station. Сите права се задржани.",
   },
   carousel: {
-    viewProducts: "Погледни ги нашите производи",
+    viewProducts: "Нашите производи",
   },
 };
 export default mk; 

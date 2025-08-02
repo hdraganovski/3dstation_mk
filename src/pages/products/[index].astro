@@ -9,8 +9,8 @@ export async function getStaticPaths() {
   const csvPath = path.resolve("./src/data/products_mk.csv");
   const csv = fs.readFileSync(csvPath, "utf8");
   const { data: products } = Papa.parse(csv, { header: true });
-  return products.map((product, index) => ({
-    params: { index: String(index) },
+  return products.filter(p => p.code).map((product) => ({
+    params: { index: product.code },
     props: { product },
   }));
 }

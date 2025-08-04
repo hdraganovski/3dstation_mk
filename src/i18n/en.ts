@@ -37,7 +37,7 @@ const en = {
     title: "Contact",
     instagram: "Instagram",
     facebook: "Facebook",
-    email: "info@3dstation.com",
+    email: "3dstation.mk@gmail.com",
     subject: "Subject",
     message: "Message",
     sendEmail: "Send",

@@ -37,7 +37,7 @@ const mk = {
     title: "Контакт",
     instagram: "Инстаграм",
     facebook: "Фејсбук",
-    email: "info@3dstation.com",
+    email: "3dstation.mk@gmail.com",
     subject: "Предмет",
     message: "Порака",
     sendEmail: "Испрати",

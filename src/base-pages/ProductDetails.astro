@@ -11,16 +11,19 @@ const parseImages = (imagesField) => {
   }
 };
 const imagesArr =
-  product && product.images && product.images == [] 
+  product && product.images && product.images == []
     ? parseImages(product.images).map((img) => `${base}/${img}`)
-    : [`${base}/android-chrome-512x512.png`];
+    : product.mainImage
+      ? [`${base}/${product.mainImage}`]
+      : [`${base}/android-chrome-512x512.png`];
 ---
 
 <BaseLayout t={t}>
-  <main class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-10">
+  <main
+    class="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center py-10"
+  >
     {
-      Astro.props.product &&
-      Astro.props.product.title ? (
+      Astro.props.product && Astro.props.product.title ? (
         <div class="w-full max-w-7xl bg-slate-800 rounded-2xl shadow-lg flex flex-col md:flex-row">
           <div class="md:w-1/2 w-full flex items-center justify-center min-h-[400px] relative">
             <button
@@ -71,9 +74,17 @@ const imagesArr =
             </div>
             <div class="flex gap-0 w-full border-t border-slate-700">
               <div class="flex-1 flex items-center justify-center border-r border-slate-700">
-                <label for="quantity-select" class="text-white font-semibold mr-2">{t.products.quantity}</label>
-                <select id="quantity-select" class="bg-slate-800 text-white px-3 py-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400">
-                  {Array.from({length: 20}, (_, i) => i + 1).map(num => (
+                <label
+                  for="quantity-select"
+                  class="text-white font-semibold mr-2"
+                >
+                  {t.products.quantity}
+                </label>
+                <select
+                  id="quantity-select"
+                  class="bg-slate-800 text-white px-3 py-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+                >
+                  {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
                     <option value={num}>{num}</option>
                   ))}
                 </select>
@@ -107,14 +118,10 @@ const imagesArr =
     <script>
       let currentImage = 0;
       const imgEls = Array.from(
-        document.querySelectorAll("[data-carousel-img]"),
+        document.querySelectorAll("[data-carousel-img]")
       );
-      const prevBtn = document.getElementById(
-        "carousel-prev",
-      );
-      const nextBtn = document.getElementById(
-        "carousel-next",
-      );
+      const prevBtn = document.getElementById("carousel-prev");
+      const nextBtn = document.getElementById("carousel-next");
       if (imgEls.length > 1) {
         prevBtn.style.display = "block";
         nextBtn.style.display = "block";
@@ -159,18 +166,20 @@ const imagesArr =
       // Initial state
       updateCarousel(currentImage);
       // Quantity selector functionality
-      const quantitySelect = document.getElementById('quantity-select');
-      const orderLink = document.getElementById('order-link');
+      const quantitySelect = document.getElementById("quantity-select");
+      const orderLink = document.getElementById("order-link");
       function updateOrderLink() {
         const quantity = (quantitySelect as HTMLSelectElement).value;
         const productTitle = encodeURIComponent(Astro.props.product.title);
         const productCode = Astro.props.product.code;
-        const mailSubject = orderLink.getAttribute('data-mail-subject') || 'Order';
-        const mailBody = orderLink.getAttribute('data-mail-body') || 'Order';
+        const mailSubject =
+          orderLink.getAttribute("data-mail-subject") || "Order";
+        const mailBody = orderLink.getAttribute("data-mail-body") || "Order";
         const mailtoLink = `mailto:3dstation.mk@gmail.com?subject=${mailSubject}: ${productTitle} [${productCode}]&body=${mailBody}: ${productTitle} [${productCode}]%0AQuantity: ${quantity}%0AName: [blank]%0AAddress: [blank]`;
         (orderLink as HTMLAnchorElement).href = mailtoLink;
       }
-      quantitySelect.addEventListener('change', updateOrderLink);
+      quantitySelect.addEventListener("change", updateOrderLink);
     </script>
   </main>
-</BaseLayout> 
+</BaseLayout>
+

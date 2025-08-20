@@ -56,6 +56,23 @@ const { t } = Astro.props;
           <span>3D Station MK</span>
         </a>
         <a
+          href="tel:076324297"
+          class="flex items-center space-x-3 hover:text-yellow-400 transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            ><path
+              d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
+            ></path></svg
+          >
+          <span>076 324 297</span>
+        </a>
+        <a
           href="mailto:info@3dstation.com"
           class="flex items-center space-x-3 hover:text-green-400 transition"
         >
@@ -72,8 +89,7 @@ const { t } = Astro.props;
           <span>info@3dstation.com</span>
         </a>
       </div>
-      <ContactForm t={t}/>
+      <ContactForm t={t} />
     </div>
   </main>
 </BaseLayout>
-

@@ -11,9 +11,9 @@ const parseImages = (imagesField) => {
   }
 };
 const imagesArr =
-  product && product.images
+  product && product.images && product.images == [] 
     ? parseImages(product.images).map((img) => `${base}/${img}`)
-    : [];
+    : [`${base}/android-chrome-512x512.png`];
 ---
 
 <BaseLayout t={t}>

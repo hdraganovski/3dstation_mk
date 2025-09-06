@@ -7,7 +7,7 @@ const { t, csvPath } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const csv = fs.readFileSync(csvPath, "utf8");
 const { data: products } = Papa.parse(csv, { header: true });
-const productsLinkPrefix = `${base}/${t.langPrefix}products`;
+const productsLinkPrefix = `${base}${t.langPrefix}products`;
 ---
 
 <BaseLayout t={t}>
@@ -33,7 +33,7 @@ const productsLinkPrefix = `${base}/${t.langPrefix}products`;
              data-title={product.title} 
              data-price={parseFloat((product.price||'').replace(/[^\d.]/g, '')) || 0}
              data-index={product.code}>
-          <img src={`${base}/${product.mainImage || 'android-chrome-512x512.png'}`} alt={product.title} class="w-full h-64 object-cover rounded-xl border border-slate-700" loading="lazy" />
+          <img src={`${base}${product.mainImage || 'android-chrome-512x512.png'}`} alt={product.title} class="w-full h-64 object-cover rounded-xl border border-slate-700" loading="lazy" />
           <div class="w-full flex flex-col items-start p-4">
             <h2 class="text-xl font-bold text-slate-100 mb-1">{product.title}</h2>
             <p class="text-slate-400 mb-2">{product.subtitle || ""}</p>

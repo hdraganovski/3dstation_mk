@@ -7,7 +7,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   // Add your domain here
-   site: 'https://hdraganovski.github.io/',
-  base: '/3dstation_mk',
+  site: 'https://3dstation.shop',
   integrations: [ sitemap()]
 });

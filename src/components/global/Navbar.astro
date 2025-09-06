@@ -10,7 +10,7 @@ const base = import.meta.env.BASE_URL;
   <div class="flex items-center gap-3">
     <a href={base} class="flex items-center">
       <img
-        src={`${base}/Logo3D.png`}
+        src={`${base}Logo3D.png`}
         alt="3D Station Logo"
         class="h-10 w-auto object-contain"
       />
@@ -19,12 +19,12 @@ const base = import.meta.env.BASE_URL;
   <ul class="flex gap-6 text-slate-100 font-medium">
     <li>
       <a
-        href={`${base}/${t.langPrefix}products`}
+        href={`${base}${t.langPrefix}products`}
         class="hover:text-blue-400 transition-colors">{t.navbar.products}</a>
     </li>
     <li>
       <a
-        href={`${base}/${t.langPrefix}contact`}
+        href={`${base}${t.langPrefix}contact`}
         class="hover:text-blue-400 transition-colors">{t.navbar.contact}</a>
     </li>
     <li>
@@ -35,7 +35,7 @@ const base = import.meta.env.BASE_URL;
         value={`${base}`}
       >
         <option value="" selected disabled hidden>{t.lang.toUpperCase()}</option>
-        <option value={`${base}/en/`}>EN</option>
+        <option value={`${base}en/`}>EN</option>
         <option value={`${base}`}>MK</option>
       </select>
     </li>

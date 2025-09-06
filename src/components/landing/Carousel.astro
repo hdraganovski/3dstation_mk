@@ -1,12 +1,19 @@
 ---
 const base = import.meta.env.BASE_URL;
 const images = [
-  `${base}/sahovska_tabla.jpeg`,
+  `${base}/кола 1.jpg`,
+  `${base}/гаража.jpg`,
+  `${base}/got.jpg`,
+  `${base}/meditating reaper.jpg`,
+  `${base}/darth vader.jpg`,
   `${base}/formula_1.jpeg`,
-  `${base}/katana.jpeg`,
-  `${base}/ukrasna_kutija_srce.jpeg`,
-  `${base}/sahovska_tabla.jpeg`,
-  `${base}/formula_1.jpeg`,
+  
+  `${base}/телефон куче.jpg`,
+  `${base}/авто сет 1.jpg`,
+  `${base}/кутија срце.jpg`,
+  `${base}/Spartan.jpg`,
+  `${base}/lale.jpg`,
+  `${base}/змеј.jpg`,
 ];
 const { t } = Astro.props;
 ---
@@ -15,7 +22,7 @@ const { t } = Astro.props;
   <div class="overflow-hidden rounded-2xl bg-slate-900/70 backdrop-blur shadow-lg border border-slate-800/60 w-full flex flex-col gap-4">
     <!-- Row 1 -->
     <div class="flex w-max whitespace-nowrap">
-      {images.map((src, i) => (
+      {images.slice(0, 6).map((src, i) => (
         <img
           src={src}
           alt={`Product Row 1 - ${i + 1}`}
@@ -28,7 +35,7 @@ const { t } = Astro.props;
     </div>
     <!-- Row 2 -->
     <div class="flex w-max whitespace-nowrap">
-      {images.map((src, i) => (
+      {images.slice(6, 12).map((src, i) => (
         <img
           src={src}
           alt={`Product Row 2 - ${i + 1}`}
